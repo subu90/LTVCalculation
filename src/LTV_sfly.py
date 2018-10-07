@@ -81,6 +81,13 @@ aggregates at the customer level which saves another whole iteration of the cust
 entire customer events in case of multi-millions events
 
 
+Future Improvements:
+
+1) Can be enhanced for Exception Handling
+
+2) Can be rewritten in an object oriented way , if required 
+
+
 """
 
 
@@ -93,9 +100,13 @@ def TopXSimpleLTVCustomers(top_n , dataset):
     years = 10
     for event in dataset:
         event_type = event[0]
-        event_key = event[2]
+        # Bucket customer to unknown if the value is not passed
+        event_key = event[2] if event[3] is not None else 'UNKNOWN'
         event_datetime = event[3]
         order_amount = float(event[11].split()[0]) if event[11] is not None else 0
+        # Skip the event if datetime is None
+        if event_datetime is None:
+            continue
 
         dateobject = datetime.strptime(event_datetime, '%Y-%m-%dT%H:%M:%S.%fZ')
 
@@ -112,7 +123,13 @@ def TopXSimpleLTVCustomers(top_n , dataset):
             if year_week_tracker[year]["max_week"] is None or week_number > year_week_tracker[year]["max_week"]:
                 year_week_tracker[year]["max_week"] = week_number
 
-        customer_id = event_key if event_type == 'CUSTOMER' else event[7]
+        # Bucket customer to unknown if the value is not passed
+        if event_type == 'CUSTOMER' :
+            customer_id = event_key
+        elif event_type is None:
+            customer_id = 'UNKNOWN'
+        else:
+            customer_id = event[7]
 
         # Maintains the unique customers
         unique_customers.add(customer_id)
@@ -181,7 +198,7 @@ def TopXSimpleLTVCustomers(top_n , dataset):
 
 def main():
 
-# List to store the
+# List to store the ingested events
     dataset = []
     print("Ingesting Data...\n")
     input_reader= open('../input/input.json')
@@ -190,13 +207,13 @@ def main():
     dataset = ingest (events , dataset )
 
     print("Computing LTVs...\n")
-    top_ltvs = TopXSimpleLTVCustomers(3 , dataset)
+    top_ltvs = TopXSimpleLTVCustomers(4 , dataset)
 
     print("Writing Output to Top_Ltvs.csv...\n")
     with open('../output/Top_Ltvs.csv', 'w') as fwriter:
         fwriter.write('customer' + ','+'ltv'+"\n")
         for customer, metrics in top_ltvs:
-            fwriter.write(customer +","+str(metrics["ltv"])+"\n")
+            fwriter.write(customer +","+str(format(metrics["ltv"], '.2f'))+"\n")
 
 
 if __name__ == "__main__" :
