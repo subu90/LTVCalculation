@@ -41,7 +41,8 @@ Assumptions :
                                                         
 2) Weeks with no events for the customer are assigned 0 for the respective metrics 
     eg: User with one order on week 13 will have ltv calculated for that whole range
-
+    
+     In the real world this will not be an issue because the data will be usually continuous 
 
 
 Performance boosts :
@@ -50,4 +51,25 @@ Performance boosts :
 aggregates at the customer level which saves another whole iteration of the customer data just for calculating LTV.
 
 2) Top N is calculated on aggregated data sorted using heap which is better in performance the sorting the 
-entire customer events in case of multi-millions events
+entire customer events in case of multi-millions events.
+
+Future Improvements:
+
+1) Can be enhanced for Exception Handling.
+
+2) Can be rewritten in an object oriented way , if required.
+
+
+#STEPS TO RUN
+
+environment : Pyhton 3.6
+
+Simply Navigate to src folder , run the following command
+
+python LTV_sfly.py
+
+output file : output/Top_Ltvs.csv
+
+
+
+
