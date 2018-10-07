@@ -17,13 +17,16 @@ The list contains all the keys available from the sample events.
 
 TopXSimpleLTVCustomers(top_n, dataset):
 
-Gets the n and the ingested data set as inputs
-processes the stream data and stores the data in the following data structures
+-Gets the n and the ingested data set as inputs
 
-customer_weekly_metrics - A dictionary of aggregated metrics (store_visits, orders, order_amount,spend_per_visit)
+-processes the stream data and stores the data in the following data structures
+
+-customer_weekly_metrics - A dictionary of aggregated metrics (store_visits, orders, order_amount,spend_per_visit)
                             partitioned at customer , year and week 
-unique_customers - stores the unique set of customers
-ltv_per_customer -  A dictionary of aggregated metrics (total_store_visits, total_orders, total_order_amount,
+
+-unique_customers - stores the unique set of customers
+
+-ltv_per_customer -  A dictionary of aggregated metrics (total_store_visits, total_orders, total_order_amount,
                                                         total_weeks, ltv) per each customer
 Assumptions :                                                        
 1) Min and max week are calculated within the available date range to get the LTV for that range
@@ -45,5 +48,6 @@ Performance boosts :
 
 1) lTV is being updated per each customer on the fly using weighted average while calculating 
 aggregates at the customer level which saves another whole iteration of the customer data just for calculating LTV.
+
 2) Top N is calculated on aggregated data sorted using heap which is better in performance the sorting the 
 entire customer events in case of multi-millions events
