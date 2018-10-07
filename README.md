@@ -28,6 +28,7 @@ TopXSimpleLTVCustomers(top_n, dataset):
 
 -ltv_per_customer -  A dictionary of aggregated metrics (total_store_visits, total_orders, total_order_amount,
                                                         total_weeks, ltv) per each customer
+                                                        
 Assumptions :                                                        
 1) Min and max week are calculated within the available date range to get the LTV for that range
     eg : If we have two years of incomplete data the ranges for those years are calculated within 
@@ -52,6 +53,8 @@ aggregates at the customer level which saves another whole iteration of the cust
 
 2) Top N is calculated on aggregated data sorted using heap which is better in performance the sorting the 
 entire customer events in case of multi-millions events.
+
+3) Complexity : o(n) 
 
 Future Improvements:
 
