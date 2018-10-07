@@ -28,6 +28,7 @@ TopXSimpleLTVCustomers(top_n, dataset):
 
 -ltv_per_customer -  A dictionary of aggregated metrics (total_store_visits, total_orders, total_order_amount,
                                                         total_weeks, ltv) per each customer
+                                                        
 Assumptions :                                                        
 1) Min and max week are calculated within the available date range to get the LTV for that range
     eg : If we have two years of incomplete data the ranges for those years are calculated within 
