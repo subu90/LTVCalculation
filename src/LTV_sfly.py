@@ -137,7 +137,7 @@ def TopXSimpleLTVCustomers(top_n , dataset):
         # Add the weekly metrics for the customer
         if (customer_id , year , week_number) not in customer_weekly_metrics:
             customer_weekly_metrics[(customer_id, year, week_number)] = dict(site_visits=0, orders=0, order_amount=0.0,
-                                                                             order_per_visit=0.0)
+                                                                             spend_per_visit=0.0)
         if event_type == 'SITE_VISIT' :
             customer_weekly_metrics[(customer_id, year, week_number)]["site_visits"]+=1
         elif event_type == 'ORDER':
@@ -146,7 +146,7 @@ def TopXSimpleLTVCustomers(top_n , dataset):
         if customer_weekly_metrics[(customer_id, year, week_number)]["site_visits"] == 0:
             customer_weekly_metrics[(customer_id, year, week_number)]["spend_per_visit"] = 0
         else:
-            customer_weekly_metrics[(customer_id, year, week_number)]["order_per_visit"] = \
+            customer_weekly_metrics[(customer_id, year, week_number)]["spend_per_visit"] = \
                 (customer_weekly_metrics[(customer_id, year, week_number)]["order_amount"] /
                  customer_weekly_metrics[(customer_id, year, week_number)]["site_visits"])
 
@@ -178,7 +178,7 @@ def TopXSimpleLTVCustomers(top_n , dataset):
         ltv_per_customer[customer_id]["total_order_amount"] += customer_weekly_metrics[customer]["order_amount"]
 
         if ltv_per_customer[customer_id]["total_site_visits"] == 0:
-            ltv_per_customer[customer_id]["avg_order_per_visit"] = 0
+            ltv_per_customer[customer_id]["avg_spend_per_visit"] = 0
 
         else:
             ltv_per_customer[customer_id]["avg_spend_per_visit"] = (ltv_per_customer[customer_id]["total_order_amount"] /
