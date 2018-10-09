@@ -54,7 +54,7 @@ aggregates at the customer level which saves another whole iteration of the cust
 2) Top N is calculated on aggregated data sorted using heap which is better in performance the sorting the 
 entire customer events in case of multi-millions events.
 
-3) Complexity : o(n) 
+3) Complexity : o(n * logn) including the sort
 
 Future Improvements:
 
